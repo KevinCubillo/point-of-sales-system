@@ -13,13 +13,19 @@ export class PrivateTasksComponent implements OnInit {
   tasks: Tasks[] = [];
 
   constructor(private tasksService: TasksService) { }
+  welcomeMessage: string = '';
 
   ngOnInit() {
+    this.welcomeMessage = localStorage.getItem('successMessage') || '';
+  
     this.tasksService.getPrivateTasks()
       .subscribe(
         res => {
           console.log(res);
           this.tasks = res;
+          if (this.welcomeMessage) {
+            localStorage.removeItem('successMessage');
+          }
         },
         err => console.log(err)
       )

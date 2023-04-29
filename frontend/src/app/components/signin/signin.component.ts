@@ -10,6 +10,8 @@ import { Router } from '@angular/router';
 export class SigninComponent implements OnInit {
 
   user = { email: '', password: '' };
+  errorMessage: string = '';
+  successMessage: string = '';
 
   constructor(private authService: AuthService, private router: Router) { }
 
@@ -22,6 +24,7 @@ export class SigninComponent implements OnInit {
         res => {
           console.log(res);
           localStorage.setItem('token', res.token);
+          localStorage.setItem('successMessage', 'Bienvenido, inicio de sesión exitoso.');
           this.router.navigate(['/private']);
         },
         err => console.log(err)

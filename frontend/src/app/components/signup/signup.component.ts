@@ -10,23 +10,44 @@ import { Router } from '@angular/router';
 })
 export class SignupComponent implements OnInit {
   user: User = { email: '', password: '' };
+  successMessage: string = '';
+  errorMessage: string = '';
+  emailError: string = '';
+
+  clearError() {
+    this.emailError = '';
+  }
 
   constructor(private authservice: AuthService, private router: Router) { }
+  
 
   ngOnInit() {
   }
 
   signUp() {
-    this.authservice.signUp(this.user)
-      .subscribe(
-        res => {
-          console.log(res);
-          localStorage.setItem('token', res.token);
-          this.router.navigate(['/private']);
-        },
-        err => console.log(err)
-      );
+    if (this.validateEmail(this.user.email)) {
+      this.authservice.signUp(this.user)
+        .subscribe(
+          res => {
+            console.log(res);
+            localStorage.setItem('token', res.token);
+            this.successMessage = 'Bienvenido, inicio de sesión exitoso.';
+            this.router.navigate(['/private']);
+          },
+          err => {
+            console.log(err);
+            this.errorMessage = 'El correo electrónico ya está en uso.';
+          }
+        );
+    } else {
+      this.errorMessage = 'Por favor, introduce un correo electrónico válido.';
+    }
+  }
+  
+
+  validateEmail(email: string): boolean {
+    const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    return re.test(String(email).toLowerCase());
   }
 }
-
 

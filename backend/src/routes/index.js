@@ -30,6 +30,16 @@ router.post('/signin', async (req, res) => {
     return res.status(200).json({token});
 });
 
+router.post('/userExists', async (req, res) => {
+    const { email } = req.body;
+    const existingUser = await User.findOne({ where: { email: email } });
+    if (existingUser) {
+      res.status(409).send('El correo electrónico ya está en uso.');
+    } else {
+      res.status(200).send();
+    }
+  });
+
 router.get('/tasks', (req, res) => {
     res.json([
         {
