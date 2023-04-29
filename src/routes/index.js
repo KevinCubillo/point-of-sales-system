@@ -1,4 +1,4 @@
-const{ Router } = require('express');
+const { Router } = require('express');
 const router = Router();
 
 const user = require('../models/User');
@@ -8,17 +8,17 @@ const User = require('../models/User');
 const path = require('path');
 
 
+
 router.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, '../public/index.html'));
-  });
-  
+});
 
 router.post('/signup', async (req, res) => {
     const { email, password } = req.body;
     const newUser = new user({email, password});
     await newUser.save();
-    const token= jwt.sign({_id:newUser.id_}, 'secretkey');
-    res.json({message: 'User Created'});
+    const token = jwt.sign({_id: newUser._id}, 'secretkey');
+    res.json({message: 'User Created', token});
 });
 
 router.post('/signin', async (req, res) => {
@@ -29,6 +29,7 @@ router.post('/signin', async (req, res) => {
     const token = jwt.sign({_id: user._id}, 'secretkey');
     return res.status(200).json({token});
 });
+
 router.get('/tasks', (req, res) => {
     res.json([
         {
@@ -51,6 +52,30 @@ router.get('/tasks', (req, res) => {
         }
     ])
 });
+
+router.get('/private-tasks', (req, res) => {
+    res.json([
+        {
+            _id: 1,
+            name: 'Task one',
+            description: 'lorem ipsum',
+            date: "2020-12-12T23:00:00.000Z"
+        },
+        {
+            _id: 2,
+            name: 'Task two',
+            description: 'lorem ipsum',
+            date: "2020-12-12T23:00:00.000Z"
+        },
+        {
+            _id: 3,
+            name: 'Task three',
+            description: 'lorem ipsum',
+            date: "2020-12-12T23:00:00.000Z"
+        }
+    ])
+});
+
 
 
 

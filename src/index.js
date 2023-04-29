@@ -1,11 +1,12 @@
 const express = require('express');
+const cors = require('cors');
 const app = express();
 const sequelize = require('./database');
 const routes = require('./routes/index');
-app.use(express.static('public'));
 
 app.use(express.json());
-app.use(routes);
+app.use(cors()); 
+app.use('/api', require('./routes/index'));
 
 sequelize.authenticate()
   .then(() => {
