@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { PrivateTasksComponent } from './private-tasks.component';
+import { PublicComponent } from './public.component';
 
-describe('PrivateTasksComponent', () => {
-  let component: PrivateTasksComponent;
-  let fixture: ComponentFixture<PrivateTasksComponent>;
+describe('PublicComponent', () => {
+  let component: PublicComponent;
+  let fixture: ComponentFixture<PublicComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ PrivateTasksComponent ]
+      declarations: [ PublicComponent ]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(PrivateTasksComponent);
+    fixture = TestBed.createComponent(PublicComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

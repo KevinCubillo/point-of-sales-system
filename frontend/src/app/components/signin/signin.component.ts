@@ -24,11 +24,15 @@ export class SigninComponent implements OnInit {
         res => {
           console.log(res);
           localStorage.setItem('token', res.token);
-          localStorage.setItem('successMessage', 'Bienvenido, inicio de sesión exitoso.');
+          localStorage.setItem('successMessage', 'Welcome, successful login.');
           this.router.navigate(['/private']);
         },
-        err => console.log(err)
+        err => {
+          console.log(err);
+          this.errorMessage = err.error;
+        }
       )
   }
+  
 
 }

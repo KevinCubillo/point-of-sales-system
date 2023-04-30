@@ -40,53 +40,6 @@ router.post('/userExists', async (req, res) => {
     }
   });
 
-router.get('/tasks', (req, res) => {
-    res.json([
-        {
-            _id: 1,
-            name: 'Task one',
-            description: 'lorem ipsum',
-            date: "2020-12-12T23:00:00.000Z"
-        },
-        {
-            _id: 2,
-            name: 'Task two',
-            description: 'lorem ipsum',
-            date: "2020-12-12T23:00:00.000Z"
-        },
-        {
-            _id: 3,
-            name: 'Task three',
-            description: 'lorem ipsum',
-            date: "2020-12-12T23:00:00.000Z"
-        }
-    ])
-});
-
-router.get('/private-tasks', (req, res) => {
-    res.json([
-        {
-            _id: 1,
-            name: 'Task one',
-            description: 'lorem ipsum',
-            date: "2020-12-12T23:00:00.000Z"
-        },
-        {
-            _id: 2,
-            name: 'Task two',
-            description: 'lorem ipsum',
-            date: "2020-12-12T23:00:00.000Z"
-        },
-        {
-            _id: 3,
-            name: 'Task three',
-            description: 'lorem ipsum',
-            date: "2020-12-12T23:00:00.000Z"
-        }
-    ])
-});
-
-
 
 
 

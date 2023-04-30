@@ -26,23 +26,24 @@ export class SignupComponent implements OnInit {
 
   signUp() {
     if (this.validateEmail(this.user.email)) {
-      this.authservice.signUp(this.user)
-        .subscribe(
-          res => {
-            console.log(res);
-            localStorage.setItem('token', res.token);
-            this.successMessage = 'Bienvenido, inicio de sesión exitoso.';
-            this.router.navigate(['/private']);
-          },
-          err => {
-            console.log(err);
-            this.errorMessage = 'El correo electrónico ya está en uso.';
-          }
-        );
-    } else {
-      this.errorMessage = 'Por favor, introduce un correo electrónico válido.';
+    this.authservice.signUp(this.user)
+    .subscribe(
+    res => {
+      console.log(res);
+      localStorage.setItem('token', res.token);
+      localStorage.setItem('successMessage', 'Welcome, successful login.');
+      this.router.navigate(['/private']);
+    },
+    err => {
+    console.log(err);
+      this.errorMessage = 'The email is already in use.';
     }
-  }
+    );
+    } else {
+      this.errorMessage = 'Please enter a valid email address.';
+    }
+    }
+  
   
 
   validateEmail(email: string): boolean {
