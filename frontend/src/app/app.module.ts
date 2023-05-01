@@ -11,6 +11,7 @@ import { TokenInterceptorService } from './services/token-interceptor.service';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { PrivateComponent } from './components/private/private.component';
+import { NgChartsModule } from 'ng2-charts';
 
 
 
@@ -31,7 +32,8 @@ import { DashboardComponent } from './components/dashboard/dashboard.component';
     AppRoutingModule,
     FormsModule,
     HttpClientModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    NgChartsModule
     
 
   ],
