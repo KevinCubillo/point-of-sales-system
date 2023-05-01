@@ -15,6 +15,7 @@ import { PrivateComponent } from './components/private/private.component';
 
 
 import { AuthGuard } from './auth.guard';
+import { DashboardComponent } from './components/dashboard/dashboard.component';
 
 
 @NgModule({
@@ -22,7 +23,8 @@ import { AuthGuard } from './auth.guard';
     AppComponent,
     SignupComponent,
     SigninComponent,
-    PrivateComponent
+    PrivateComponent,
+    DashboardComponent
   ],
   imports: [
     BrowserModule,

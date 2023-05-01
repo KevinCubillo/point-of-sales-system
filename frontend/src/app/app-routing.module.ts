@@ -8,6 +8,7 @@ import { SignupComponent } from './components/signup/signup.component';
 import { SigninComponent } from './components/signin/signin.component';
 
 import { AuthGuard } from './auth.guard';
+import { DashboardComponent } from './components/dashboard/dashboard.component';
 
 const routes: Routes = [
   {
@@ -32,6 +33,10 @@ const routes: Routes = [
     path: 'signin',
     component: SigninComponent,
   },
+  {
+    path: 'dashboard',
+    component: DashboardComponent
+  }
 ];
 
 @NgModule({
