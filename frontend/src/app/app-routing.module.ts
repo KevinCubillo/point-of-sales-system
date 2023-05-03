@@ -9,6 +9,7 @@ import { SigninComponent } from './components/signin/signin.component';
 
 import { AuthGuard } from './auth.guard';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
+import { InvoiceComponent } from './components/invoice/invoice.component';
 
 const routes: Routes = [
   {
@@ -36,6 +37,10 @@ const routes: Routes = [
   {
     path: 'dashboard',
     component: DashboardComponent
+  },
+  {
+    path: 'invoice',
+    component: InvoiceComponent
   }
 ];
 

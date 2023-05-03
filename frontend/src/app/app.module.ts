@@ -17,6 +17,8 @@ import { NgChartsModule } from 'ng2-charts';
 
 import { AuthGuard } from './auth.guard';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
+import { SalesComponent } from './components/sales/sales.component';
+import { InvoiceComponent } from './components/invoice/invoice.component';
 
 
 @NgModule({
@@ -25,7 +27,9 @@ import { DashboardComponent } from './components/dashboard/dashboard.component';
     SignupComponent,
     SigninComponent,
     PrivateComponent,
-    DashboardComponent
+    DashboardComponent,
+    SalesComponent,
+    InvoiceComponent
   ],
   imports: [
     BrowserModule,
