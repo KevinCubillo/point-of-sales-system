@@ -1,6 +1,6 @@
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
 <div class="container">
-  <a class="navbar-brand" href="#">Point Of Sale</a>
+  <a class="navbar-brand" href="#">Pulperia Gallo</a>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>
@@ -11,17 +11,20 @@
         <a class="nav-link" routerLink="/inventory" routerLinkActive="active">Inventario</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" routerLink="/dashboard" routerLinkActive="active">Dashboard</a>
+        <a class="nav-link" routerLink="/dashboard" routerLinkActive="active">Informes</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" routerLink="/invoice" routerLinkActive="active" >Facturas</a>
       </li>
       
     </ul>
     <ul class="navbar-nav ml-auto">
       <ng-container *ngIf="!authService.loggedIn(); else loggedIn">
         <li class="nav-item">
-          <a class="nav-link" routerLink="/signin" routerLinkActive="active">Login</a> <!-- Cambiar /login a /signin -->
+          <a class="nav-link" routerLink="/signin" routerLinkActive="active">Ingresar</a> <!-- Cambiar /login a /signin -->
         </li>
         <li class="nav-item">
-          <a class="nav-link" routerLink="/signup" routerLinkActive="active">Register</a> <!-- Cambiar /register a /signup -->
+          <a class="nav-link" routerLink="/signup" routerLinkActive="active">Registrarse</a> <!-- Cambiar /register a /signup -->
         </li>
       </ng-container>
       <ng-template #loggedIn> 
