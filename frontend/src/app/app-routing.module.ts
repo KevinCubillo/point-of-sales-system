@@ -3,39 +3,49 @@ import { RouterModule, Routes } from '@angular/router';
 
 //componentes
 import { PublicComponent } from './components/public/public.component';
-import {PrivateComponent} from './components/private/private.component';
-import {SignupComponent} from './components/signup/signup.component';
-import {SigninComponent} from './components/signin/signin.component';
+import { PrivateComponent } from './components/private/private.component';
+import { SignupComponent } from './components/signup/signup.component';
+import { SigninComponent } from './components/signin/signin.component';
 
 import { AuthGuard } from './auth.guard';
+import { DashboardComponent } from './components/dashboard/dashboard.component';
+import { InventoryComponent } from './components/inventory/inventory.component';
 
 const routes: Routes = [
   {
     path: '',
     redirectTo: '/public',
-    pathMatch: 'full'
+    pathMatch: 'full',
   },
   {
     path: 'public',
-    component: PublicComponent
+    component: PublicComponent,
   },
   {
-    path: 'private' ,
-    component: PrivateComponent
-    , canActivate: [AuthGuard]
+    path: 'private',
+    component: PrivateComponent,
+    canActivate: [AuthGuard],
   },
   {
     path: 'signup',
-    component: SignupComponent
+    component: SignupComponent,
   },
   {
     path: 'signin',
-    component: SigninComponent
+    component: SigninComponent,
+  },
+  {
+    path: 'dashboard',
+    component: DashboardComponent
+  },
+  {
+    path: 'inventory',
+    component: InventoryComponent
   }
 ];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {}
