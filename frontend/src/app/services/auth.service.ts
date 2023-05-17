@@ -7,8 +7,9 @@ import { catchError,switchMap } from 'rxjs/operators';
 @Injectable({
   providedIn: 'root'
 })
+
 export class AuthService {
-  private URL = 'http://localhost:3000/api';
+  private URL = 'http://localhost:3000';
 
   constructor(private http: HttpClient, private router: Router) {}
   signUp(user: { email: string; password: string }): Observable<any> {

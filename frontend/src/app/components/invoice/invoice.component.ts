@@ -5,7 +5,7 @@ interface Item {
   nombre: string;
   cantidad: number;
   precio: number;
-  
+  iva: number;
 }
 
 @Component({
@@ -25,16 +25,18 @@ export class InvoiceComponent {
       id: 0,
       nombre: 'leche',
       cantidad: 3,
-      precio: 1200
+      precio: 1200,
+      iva: 250
     }]
   };
 
   add() {
     this.invoice.items.push({
-      id: 0,
+      id: this.invoice.items.length,
       nombre: '',
-      cantidad: 1,
-      precio: 0
+      cantidad: 0,
+      precio: 0, 
+      iva: 0  
     });
   }
 
@@ -42,14 +44,18 @@ export class InvoiceComponent {
     this.invoice.items.splice(index, 1);
   }
 
-  total() {
+  total(){
     let total = 0;
     this.invoice.items.forEach((item: Item) => {
-      total += item.cantidad * item.precio;
+      total += this.totalPorProducto(item);
     });
     return total;
   }
 
+  totalPorProducto(item: Item) {
+    return item.cantidad*(item.precio+item.iva);
+  }
+  
   pay() {
     console.log('La factura ha sido pagada.');
   }

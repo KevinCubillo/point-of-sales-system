@@ -3,11 +3,10 @@ const cors = require('cors');
 const app = express();
 const morgan = require("morgan");
 const sequelize = require('./database');
-const routes = require('./routes/index');
 
 app.use(express.json());
 app.use(cors()); 
-app.use('/api', require('./routes/index'));
+app.use('/', require('./routes/routes'));
 
 sequelize.authenticate()
   .then(() => {
