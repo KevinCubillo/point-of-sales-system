@@ -1,42 +1,44 @@
 import { Component } from '@angular/core';
+import { ProductService } from '../../services/invoice.service';
+import { preserveWhitespacesDefault } from '@angular/compiler';
+
 
 interface Item {
-  id: number;
+  codigo: number;
   nombre: string;
   cantidad: number;
   precio: number;
   iva: number;
+  disponibles: number;
 }
 
 @Component({
   selector: 'app-invoice',
   templateUrl: './invoice.component.html',
-  styleUrls: ['./invoice.component.css']
+  styleUrls: ['./invoice.component.css'],
 })
+
 export class InvoiceComponent {
+  constructor(private productService: ProductService) { }
+
   invoice: {
-    id: number,
+    codigo: number,
     date: Date,
     items: Item[]
   } = {
-    id: 123,
+    codigo: 123,
     date: new Date(),
-    items: [{
-      id: 0,
-      nombre: 'leche',
-      cantidad: 3,
-      precio: 1200,
-      iva: 250
-    }]
+    items: []
   };
 
   add() {
     this.invoice.items.push({
-      id: this.invoice.items.length,
+      codigo: this.invoice.items.length,
       nombre: '',
       cantidad: 0,
       precio: 0, 
-      iva: 0  
+      iva: 0,
+      disponibles: 0
     });
   }
 
@@ -44,19 +46,40 @@ export class InvoiceComponent {
     this.invoice.items.splice(index, 1);
   }
 
-  total(){
+  total() {
     let total = 0;
     this.invoice.items.forEach((item: Item) => {
       total += this.totalPorProducto(item);
     });
     return total;
   }
-
+  
   totalPorProducto(item: Item) {
-    return item.cantidad*(item.precio+item.iva);
+    return parseFloat((item.cantidad*(item.precio+item.iva)).toFixed(2));
   }
   
   pay() {
-    console.log('La factura ha sido pagada.');
+    this.invoice.items.forEach((item: Item) => {
+      this.productService.updateProductQuantity(item.codigo, item.disponibles - item.cantidad).subscribe(response => {
+        console.log(response);
+      }, error => {
+        console.error(error);
+      });
+    });
+    
   }
+
+  onProductCodeChange(codigo: number, item: Item) {
+    if (codigo) {
+      this.productService.getProductById(codigo).subscribe(response => {
+        item.nombre = response.nombre;
+        item.precio = response.precio;
+        item.iva = response.iva * item.precio;
+        item.disponibles = response.cantidad;
+      }, error => {
+        console.error(error);
+      });
+    }
+  }
+  
 }

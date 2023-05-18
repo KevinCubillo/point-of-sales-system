@@ -9,7 +9,7 @@
     <table class="table table-hover">
       <thead>
         <tr>
-          <th>ID</th>
+          <th>Código</th>
           <th>Nombre</th>
           <th>Precio unitario</th>
           <th>IVA</th>
@@ -20,12 +20,15 @@
       </thead>
       <tbody>
         <tr *ngFor="let item of invoice.items; let i = index">
-          <td><input type="text" [(ngModel)]="item.id" class="form-control" /></td>
-          <td><input type="text" [(ngModel)]="item.nombre" class="form-control" /></td>
-          <td><input type="number" [(ngModel)]="item.precio" class="form-control" /></td>
-          <td><input type="number" [(ngModel)]="item.iva" class="form-control" /></td>
-          <td><input type="number" [(ngModel)]="item.cantidad" class="form-control" /></td>
+
+          <td><input type="text" [(ngModel)]="item.codigo" class="form-control"(keyup)="onProductCodeChange(item.codigo, item)" /></td>
+          <td><input type="text" [(ngModel)]="item.nombre" class="form-control" readonly/></td>
+          <td><input type="number" [(ngModel)]="item.precio" class="form-control" readonly/></td>
+          <td><input type="number" [(ngModel)]="item.iva" class="form-control" readonly/></td>
+          <td><input type="number" [(ngModel)]="item.cantidad" class="form-control" [min]="0" [max]="item.disponibles"/></td>
+
           <td>₡{{totalPorProducto(item)}}</td>
+          
           <td><button type="button" class="btn btn-danger" (click)="remove(i)">Borrar</button></td>
         </tr>
         <tr>

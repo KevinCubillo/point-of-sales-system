@@ -22,6 +22,11 @@ Product.init(
             allowNull: false,
             unique: false,
         },
+        precio: {
+            type: DataTypes.FLOAT,
+            allowNull: false,
+            unique: false,
+        },
         tipo: {
             type: DataTypes.STRING,
             allowNull: false,
@@ -32,7 +37,7 @@ Product.init(
             allowNull: true,
             unique: false,
         },
-        IVA: {
+        iva: {
             type : DataTypes.FLOAT,
             allowNull: false,
             unique: false,
