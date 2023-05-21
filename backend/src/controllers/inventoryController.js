@@ -29,9 +29,9 @@ exports.getProductById = async (req, res) => {
 
 // Agregar un nuevo producto
 exports.addProduct = async (req, res) => {
-  const { codigo, nombre, cantidad, precio, tipo, foto, iva } = req.body;
+  const { codigo, descripcion, cantidad, precio, tipo, foto, iva } = req.body;
   try {
-    const result = await product.create({codigo, nombre, cantidad, precio, tipo, foto, iva });
+    const result = await product.create({codigo, descripcion, cantidad, precio, tipo, foto, iva });
     res.json({result});
   } catch (error) {
     console.log("An error occurred while adding the product:", error);
@@ -43,10 +43,10 @@ exports.addProduct = async (req, res) => {
 exports.updateProduct = async (req, res) => {
   console.log(req.body);
   const codigo = req.params.codigo;
-  const { codigo: newCodigo, nombre, cantidad, precio, tipo, foto, iva } = req.body;
+  const { codigo: newCodigo, descripcion, cantidad, precio, tipo, foto, iva } = req.body;
   try {
     const result = await product.update(
-      { codigo: newCodigo, nombre, cantidad, precio, tipo, foto, iva },
+      { codigo: newCodigo, descripcion, cantidad, precio, tipo, foto, iva },
       { where: { codigo } }
     );
     if (result[0] === 1) {

@@ -2,7 +2,7 @@
   <section class="row">
     <div class="col-12 text-center">
       <h1>Factura #001</h1>
-      <p>Fecha y hora: {{ invoice.date }}</p>
+      <p>Fecha y hora: {{ invoice.fecha }}</p>
     </div>
   </section>
   <section class="row">
@@ -10,7 +10,7 @@
       <thead>
         <tr>
           <th>Código</th>
-          <th>Nombre</th>
+          <th>Descripcion</th>
           <th>Precio unitario</th>
           <th>IVA</th>
           <th>Cantidad</th>
@@ -19,11 +19,11 @@
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let item of invoice.items; let i = index">
+        <tr *ngFor="let item of invoice.productosComprados; let i = index">
 
-          <td><input type="text" [(ngModel)]="item.codigo" class="form-control"(keyup)="onProductCodeChange(item.codigo, item)" /></td>
-          <td><input type="text" [(ngModel)]="item.nombre" class="form-control" readonly/></td>
-          <td><input type="number" [(ngModel)]="item.precio" class="form-control" readonly/></td>
+          <td><input type="text" [(ngModel)]="item.productoId" class="form-control"(keyup)="onProductCodeChange(item.productoId, item)" /></td>
+          <td><input type="text" [(ngModel)]="item.descripcion" class="form-control" readonly/></td>
+          <td><input type="number" [(ngModel)]="item.precioUnitario" class="form-control" readonly/></td>
           <td><input type="number" [(ngModel)]="item.iva" class="form-control" readonly/></td>
           <td><input type="number" [(ngModel)]="item.cantidad" class="form-control" [min]="0" [max]="item.disponibles"/></td>
 

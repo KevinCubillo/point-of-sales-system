@@ -12,7 +12,7 @@ Product.init(
             primaryKey: true
         },
 
-        nombre: {
+        descripcion: {
             type: DataTypes.STRING,
             allowNull: false,
             unique: false,
