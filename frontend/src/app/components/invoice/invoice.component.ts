@@ -1,6 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild, ElementRef} from '@angular/core';
 import { InvoiceService } from '../../services/invoice.service';
-import { ToastrService } from 'ngx-toastr';
+import { Toast } from 'bootstrap';
 
 
 
@@ -20,28 +20,38 @@ interface Item {
   styleUrls: ['./invoice.component.css'],
 })
 
+
 export class InvoiceComponent {
-  constructor(private invoiceService: InvoiceService) { }
+  @ViewChild('toastPlacement') toastPlacement: ElementRef;
+  
+  toastMessage: string;
+
+  constructor(private invoiceService: InvoiceService) {
+    this.toastPlacement = new ElementRef(null);
+    this.toastMessage = '';
+  }
 
   invoice: {
-    fecha: Date,
-    dependiente: string,
-    productosComprados: Item[]
+    fecha: Date;
+    dependiente: string;
+    productosComprados: Item[];
   } = {
     fecha: new Date(),
     dependiente: '',
-    productosComprados: []
+    productosComprados: [],
   };
+
+
 
   add() {
     this.invoice.productosComprados.push({
       productoId: this.invoice.productosComprados.length,
       descripcion: '',
       cantidad: 0,
-      precioUnitario: 0, 
+      precioUnitario: 0,
       iva: 0,
       total: 0,
-      disponibles: 0
+      disponibles: 0,
     });
   }
 
@@ -50,8 +60,8 @@ export class InvoiceComponent {
   }
 
   totalPorProducto(item: Item) {
-    item.total = item.cantidad*(item.precioUnitario+item.iva);
-    return parseFloat((item.total).toFixed(2));
+    item.total = item.cantidad * (item.precioUnitario + item.iva);
+    return parseFloat(item.total.toFixed(2));
   }
 
   subtotal() {
@@ -61,7 +71,6 @@ export class InvoiceComponent {
     });
     return parseFloat(subtotal.toFixed(2));
   }
-  
 
   iva() {
     let iva = 0;
@@ -70,23 +79,27 @@ export class InvoiceComponent {
     });
     return parseFloat(iva.toFixed(2));
   }
-  
- 
+
   total() {
     return this.subtotal() + this.iva();
   }
 
   pay() {
     this.invoice.productosComprados.forEach((item: Item) => {
-      this.invoiceService.updateProductQuantity(item.productoId, item.disponibles - item.cantidad).subscribe(response => {
-        console.log(response);
-      }, error => {
-        console.error(error);
-      });  
+      this.invoiceService
+        .updateProductQuantity(item.productoId, item.disponibles - item.cantidad)
+        .subscribe(
+          (response) => {
+            console.log(response);
+          },
+          (error) => {
+            console.error(error);
+          }
+        );
     });
     this.createInvoice();
   }
-  
+
   createInvoice() {
     // Crear el objeto invoiceData con los datos de la factura
     const invoiceData = {
@@ -94,33 +107,61 @@ export class InvoiceComponent {
       dependiente: this.invoice.dependiente,
       subtotal: this.subtotal(),
       iva: this.iva(),
-      total: this. total(),
-      productos: this.invoice.productosComprados
+      total: this.total(),
+      productos: this.invoice.productosComprados,
     };
     console.log(invoiceData);
     // Llamar al método createInvoice del servicio
-    this.invoiceService.createInvoice(invoiceData).subscribe(response => {
-      console.log(response);
-      // Restablecer los valores de la factura después de crearla
-      this.resetInvoice();
-    }, error => {
-      console.error(error);
-    });
+    this.invoiceService.createInvoice(invoiceData).subscribe(
+      (response) => {
+        console.log(response);
+        // Restablecer los valores de la factura después de crearla
+        this.resetInvoice();
+        
+        let factura = "\nFecha: " + invoiceData.fecha
+        factura += "\nDependiente: " + invoiceData.dependiente
+        factura += "\nProductos: "
+        invoiceData.productos.forEach((item: Item) => {
+          factura += "\n\t" + item.descripcion + "x" + item.cantidad + " = " + item.total
+        });
+        factura += "\nSubtotal: " + invoiceData.subtotal
+        factura += "\nIVA: " + invoiceData.iva
+        factura += "\nTotal: " + invoiceData.total
+    
+        this.showToast(factura); //secualizar el mensaje de la factura
+        console.log(factura);
+
+
+      },
+      (error) => {
+        console.error(error);
+      }
+    );
+  }
+
+  showToast(message: string) {
+    this.toastMessage = message;
+    const toastElement = this.toastPlacement.nativeElement;
+    const toastBody = toastElement.querySelector('.toast-body');
+    toastBody.innerHTML = `<pre>${message}</pre>`; // Utiliza la etiqueta <pre> para preservar los saltos de línea
+    const toast = new Toast(toastElement);
+    toast.show();
   }
   
   resetInvoice() {
     this.invoice = {
       fecha: new Date(),
-      dependiente: '',
-      productosComprados: []
+      dependiente : '',
+      productosComprados: [],
     };
   }
+
   
   onProductCodeChange(codigo: number, item: Item) {
     if (codigo) {
       this.invoiceService.getProductById(codigo).subscribe(
         response => {
-          item.descripcion = response.nombre;
+          item.descripcion = response.descripcion;
           item.precioUnitario = response.precio;
           item.iva = response.iva * item.precioUnitario;
           item.disponibles = response.cantidad;
@@ -137,5 +178,5 @@ export class InvoiceComponent {
     }
   }
 
+
 }
-  

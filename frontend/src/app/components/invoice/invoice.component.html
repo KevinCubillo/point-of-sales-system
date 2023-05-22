@@ -10,7 +10,7 @@
       <thead>
         <tr>
           <th>Código</th>
-          <th>Descripcion</th>
+          <th>Descripción</th>
           <th>Precio unitario</th>
           <th>IVA</th>
           <th>Cantidad</th>
@@ -20,15 +20,12 @@
       </thead>
       <tbody>
         <tr *ngFor="let item of invoice.productosComprados; let i = index">
-
-          <td><input type="text" [(ngModel)]="item.productoId" class="form-control"(keyup)="onProductCodeChange(item.productoId, item)" /></td>
-          <td><input type="text" [(ngModel)]="item.descripcion" class="form-control" readonly/></td>
-          <td><input type="number" [(ngModel)]="item.precioUnitario" class="form-control" readonly/></td>
-          <td><input type="number" [(ngModel)]="item.iva" class="form-control" readonly/></td>
-          <td><input type="number" [(ngModel)]="item.cantidad" class="form-control" [min]="0" [max]="item.disponibles"/></td>
-
-          <td>₡{{totalPorProducto(item)}}</td>
-          
+          <td><input type="text" [(ngModel)]="item.productoId" class="form-control" (keyup)="onProductCodeChange(item.productoId, item)" /></td>
+          <td><input type="text" [(ngModel)]="item.descripcion" class="form-control" readonly /></td>
+          <td><input type="number" [(ngModel)]="item.precioUnitario" class="form-control" readonly /></td>
+          <td><input type="number" [(ngModel)]="item.iva" class="form-control" readonly /></td>
+          <td><input type="number" [(ngModel)]="item.cantidad" class="form-control" [min]="0" [max]="item.disponibles" /></td>
+          <td>₡{{ totalPorProducto(item) }}</td>
           <td><button type="button" class="btn btn-danger" (click)="remove(i)">Borrar</button></td>
         </tr>
         <tr>
@@ -36,8 +33,8 @@
           <td></td>
           <td></td>
           <td></td>
-          <td>Total : </td>
-          <td>₡{{total()}}</td>
+          <td>Total:</td>
+          <td>₡{{ total() }}</td>
           <td></td>
         </tr>
         <tr>
@@ -52,4 +49,16 @@
       </tbody>
     </table>
   </section>
-</div>
+
+  <!-- Elemento de la Toast -->
+  <div class="toast" role="alert" aria-live="assertive" aria-atomic="true" #toastPlacement>
+    <div class="toast-header">
+      <img src="..." class="rounded me-2" alt="...">
+      <strong class="me-auto">Factura creada</strong>
+      <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+    </div>
+    <div class="toast-body">
+      {{ toastMessage }}
+    </div>
+  </div>
+  

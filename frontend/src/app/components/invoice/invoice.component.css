@@ -1,5 +1,15 @@
+@import '~bootstrap/dist/css/bootstrap.min.css';
+
 .invoice-table {
     width: 100%;
     display: block;
     margin-top: 25px;
   }
+
+  .toast {
+    max-width: 100%;
+    width: fit-content;
+    margin: 0 auto;
+    font-size: 17px;
+  }
+  
