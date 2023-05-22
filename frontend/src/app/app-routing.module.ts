@@ -11,6 +11,7 @@ import { AuthGuard } from './auth.guard';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { InventoryComponent } from './components/inventory/inventory.component';
 import { InvoiceComponent } from './components/invoice/invoice.component';
+import { InvoiceHistoryComponent } from './components/invoice-history/invoice-history.component';
 
 const routes: Routes = [
   {
@@ -46,6 +47,10 @@ const routes: Routes = [
   {
     path: 'invoice',
     component: InvoiceComponent
+  },
+  {
+    path: 'invoice-history',
+    component: InvoiceHistoryComponent
   }
 ];
 

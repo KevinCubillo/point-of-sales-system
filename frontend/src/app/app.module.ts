@@ -19,6 +19,7 @@ import { AuthGuard } from './auth.guard';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { InventoryComponent } from './components/inventory/inventory.component';
 import { InvoiceComponent } from './components/invoice/invoice.component';
+import { InvoiceHistoryComponent } from './components/invoice-history/invoice-history.component';
 
 
 @NgModule({
@@ -29,7 +30,8 @@ import { InvoiceComponent } from './components/invoice/invoice.component';
     PrivateComponent,
     DashboardComponent,
     InventoryComponent,
-    InvoiceComponent
+    InvoiceComponent,
+    InvoiceHistoryComponent
   ],
   imports: [
     BrowserModule,
