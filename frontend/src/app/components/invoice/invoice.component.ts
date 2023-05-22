@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { InvoiceService } from '../../services/invoice.service';
-import { preserveWhitespacesDefault } from '@angular/compiler';
+import { ToastrService } from 'ngx-toastr';
+
 
 
 interface Item {
@@ -56,18 +57,20 @@ export class InvoiceComponent {
   subtotal() {
     let subtotal = 0;
     this.invoice.productosComprados.forEach((item: Item) => {
-      subtotal += item.cantidad*item.precioUnitario;
+      subtotal += item.cantidad * item.precioUnitario;
     });
-    return subtotal;
+    return parseFloat(subtotal.toFixed(2));
   }
+  
 
   iva() {
     let iva = 0;
     this.invoice.productosComprados.forEach((item: Item) => {
-      iva += item.cantidad*item.iva;
+      iva += item.cantidad * item.iva;
     });
-    return iva;
+    return parseFloat(iva.toFixed(2));
   }
+  
  
   total() {
     return this.subtotal() + this.iva();
@@ -115,15 +118,24 @@ export class InvoiceComponent {
   
   onProductCodeChange(codigo: number, item: Item) {
     if (codigo) {
-      this.invoiceService.getProductById(codigo).subscribe(response => {
-        item.descripcion = response.nombre;
-        item.precioUnitario = response.precio;
-        item.iva = response.iva * item.precioUnitario;
-        item.disponibles = response.cantidad;
-      }, error => {
-        console.error(error);
-      });
+      this.invoiceService.getProductById(codigo).subscribe(
+        response => {
+          item.descripcion = response.nombre;
+          item.precioUnitario = response.precio;
+          item.iva = response.iva * item.precioUnitario;
+          item.disponibles = response.cantidad;
+        },
+        error => {
+          console.error(error);
+          // Establecer los campos del item en vacío
+          item.descripcion = "";
+          item.precioUnitario = 0;
+          item.iva = 0;
+          item.disponibles = 0;
+        }
+      );
     }
   }
-  
+
 }
+  

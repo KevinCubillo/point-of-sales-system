@@ -22,5 +22,9 @@ export class InvoiceService {
     return this.http.post(this.url + "invoices", invoiceData);
   }
 
+  getInvoices(): Observable<any> {
+    return this.http.get(this.url + "invoices");
+  }
+
 
 }

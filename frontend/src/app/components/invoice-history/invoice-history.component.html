@@ -1,0 +1,23 @@
+<h1>Invoice History</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Invoice ID</th>
+      <th>Date</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let invoice of invoices" (click)="showInvoiceDetails(invoice)">
+      <td>{{ invoice.id }}</td>
+      <td>{{ invoice.fecha | date }}</td>
+    </tr>
+  </tbody>
+</table>
+
+<div *ngIf="selectedInvoice">
+  <h2>Invoice Details</h2>
+  <p>Invoice ID: {{ selectedInvoice.id }}</p>
+  <p>Date: {{ selectedInvoice.fecha | date }}</p>
+  <!-- Add more details here as needed -->
+</div>
