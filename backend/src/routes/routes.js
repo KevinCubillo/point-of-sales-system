@@ -5,6 +5,7 @@ const router = express.Router();
 const inventoryController = require("../controllers/inventoryController");
 const authController = require("../controllers/authController");
 const invoiceController = require("../controllers/invoiceController");
+const Sold = require("../controllers/soldProductController");
 
 // Rutas para el inventario
 router.get("/products", inventoryController.getAllProducts);
@@ -23,5 +24,13 @@ router.delete('/invoices/:id', invoiceController.deleteInvoice);
 router.post("/signup", authController.signup);
 router.post("/signin", authController.signin);
 router.post("/userExists", authController.userExists);
+
+// Rutas para los productos vendidos
+router.get("/soldProducts", Sold.getAllSoldProducts);
+router.get("/soldProducts/sum", Sold.getSumSoldProducts);
+router.get("/soldProducts/sum/month", Sold.getSumSoldProductsByMonth);
+router.get("/soldProducts/month", Sold.getSalesByMonth);
+router.get("/soldProducts/most", Sold.getMostSoldProduct);
+
 
 module.exports = router;
