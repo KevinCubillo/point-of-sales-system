@@ -1,4 +1,5 @@
 const product = require("../models/product");
+const multer = require('multer');
 
 // Obtener todos los productos
 exports.getAllProducts = async (req, res) => {
@@ -76,3 +77,15 @@ exports.deleteProduct = async (req, res) => {
     res.status(500).json({ error: "Internal server error" });
   }
 };
+
+
+//Obtener imagenes
+const path = require('path');
+exports.getImage = async (req,res) =>{
+  const imageId = req.params.imageId;
+  const imagePath = path.join(__dirname, '../images', imageId); // Reemplaza 'ruta_a_tus_imagenes' con la ruta real donde se almacenan las imágenes
+
+  res.sendFile(imagePath);
+}
+
+

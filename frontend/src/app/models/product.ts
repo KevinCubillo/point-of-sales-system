@@ -1,7 +1,9 @@
 export interface product{
+    codigo: string,
     cantidad : number,
-    codigo: number,
-    foto:String,
-    nombre:String, 
-    tipo:String
+    precio:number,
+    iva:number,
+    foto:string,
+    descripcion:string, 
+    tipo:string
  }

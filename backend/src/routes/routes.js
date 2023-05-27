@@ -12,6 +12,7 @@ router.get("/products/:codigo", inventoryController.getProductById);
 router.post("/products", inventoryController.addProduct);
 router.put("/products/:codigo", inventoryController.updateProduct);
 router.delete("/products/:codigo", inventoryController.deleteProduct);
+router.get("/images/:imageId",inventoryController.getImage);
 
 // Rutas para las facturas
 router.post('/invoices', invoiceController.createInvoice);

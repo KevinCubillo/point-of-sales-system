@@ -1,4 +1,63 @@
+
+<div class="addBackground" id="addForm">
+      <div class="addForm">
+        <form>
+            <div class="title">
+            <p>Añadir Producto</p>
+            </div>
+            <div class="information">
+            <div class="InputBox">
+                <label for="">Nombre:</label>
+                <input type="text" placeholder="Nombre" [(ngModel)]="nombre" name="nombre">
+            </div>
+            <div class="InputBox">
+                <label for="">Foto:</label>
+                <input type="file" autocomplete="off" (change)="onFileSelected($event)" name="archivo">
+            </div>
+            
+            <div class="InputBox">
+                <label for="">Categoría:</label>
+                <select [(ngModel)]="categoria" name="categoria">
+                    <option value="" selected disabled>-- Elegir Categoría --</option>
+                    <option value="Limpieza">Limpieza</option>
+                    <option value="Legumbres">Legumbres</option>
+                    <option value="Dulces">Dulces</option>
+                    <option value="Bebidas">Bebidas</option>
+                    <option value="Snacks">Snacks</option>
+                    <option value="Carnes">Carnes</option>
+                    <option value="Frutas">Frutas</option>
+                    <option value="Lacteos">Lacteos</option>
+                </select>
+            </div>
+            <div class="InputBox">
+                <label for="">Cantidad:</label>
+                <input type="number" placeholder="Cantidad inicial" [(ngModel)]="cantidad" name="cantidad">
+            </div>
+
+            <div class="InputBox">
+                <label for="">Precio:</label>
+                <input type="number" placeholder="Precio" [(ngModel)]="precio" name="precio">
+            </div>
+
+            <div class="InputBox">
+                <label for="">IVA:</label>
+                <input type="number" placeholder="% IVA" [(ngModel)]="iva" name="iva">
+                </div>
+            </div>
+            <div class="buttons" id="addP">
+                <button (click)="cancelar()" type="button" class="addButton" style="background-color: #cd5d5d;border-color:#ac4646;width: 45%;">Cancelar</button>
+                <button (click)="agregarProducto()" class="addButton" style="width: 45%">Agregar</button>
+            </div>
+            <div class="buttons" id="updateP">
+                <button (click)="cancelar()" type="button" class="addButton" style="background-color: #cd5d5d;border-color:#ac4646;width: 45%;">Cancelar</button>
+                <button (click)="actualizarProducto()" class="addButton" style="background-color: #ddc749;border-color:#c7b340;width: 45%">Actualizar</button>
+            </div>
+        </form>
+      </div>
+  </div>
 <div class="inventaryView">
+
+    
 
     <!--=========================== TITULO DE LA PESTAÑA ====================================-->
     <div class="titleBox">
@@ -14,7 +73,7 @@
                     <div class="actionIcon" style="background-color: #97a2eb;"><i class="fa-solid fa-warehouse"></i></div>
                     <div class="actionInfo">
                         <p class="actionName">Catalogo</p>
-                        <span style="background-color: #4f58a3;">213</span>
+                        <span style="background-color: #4f58a3;">{{ cantidadProductos }}</span>
                     </div>
                 </div>
             </div>
@@ -25,7 +84,7 @@
                     <div class="actionIcon" style="background-color: #59e08a;"><i class="fa-solid fa-boxes-stacked"></i></div>
                     <div class="actionInfo">
                         <p class="name">Disponible</p>
-                        <span style="background-color: #34aa60;">213</span>
+                        <span style="background-color: #34aa60;">{{ disponible }}</span>
                     </div>
                 </div>
             </div>
@@ -36,7 +95,7 @@
                     <div class="actionIcon" style="background-color: #f5e067;"><i class="fa-solid fa-truck-moving"></i></div>
                     <div class="actionInfo">
                         <p class="name">Entrantes</p>
-                        <span style="background-color: #c6b44e;">213</span>
+                        <span style="background-color: #c6b44e;">{{ entradas }}</span>
                     </div>
                 </div>
             </div>
@@ -47,7 +106,7 @@
                     <div class="actionIcon" style="background-color: #71c2db;"><i class="fa-regular fa-share-from-square"></i></div>
                     <div class="actionInfo">
                         <p class="name">Salidas</p>
-                        <span style="background-color: #539db4;">213</span>
+                        <span style="background-color: #539db4;">{{ salidas }}</span>
                     </div>
                 </div>
             </div>
@@ -61,7 +120,7 @@
     <div class="container-fluid mt-5">
         <div class="row">
             <div class="col-md-4">
-                <input type="Buscar" placeholder="Buscar" class="search w-100 h-100 rounded">
+                <input type="text" [(ngModel)]="filtro" placeholder="Buscar" class="search w-100 h-100 rounded">
             </div>
             
             <div class="col-md-8">
@@ -69,14 +128,13 @@
                     <div class="col-md-2">
                         <div class="set view d-flex align-items-center">
                             <p class="my-auto">VISTA</p>
-                            <a href=""><i class="fa-solid fa-list" style="color: #959494;"></i></a>
-                            <a href=""><i class="fa-brands fa-microsoft" style="color: #959494;"></i></a>
+                            <span (click)="lista()"><i class="fa-solid fa-list" style="color: #959494;"></i></span>
+                            <span (click)="bloque()"><i class="fa-brands fa-microsoft" style="color: #959494;"></i></span>
                         </div>
                     </div>
                     <div class="col-md-2">
-                        <div class="set view" >
-                            <p class="my-auto">Filtros</p>
-                            <a href=""><i class="fa-solid fa-filter" style="color: #959494;"></i></a>
+                        <div class="set view d-flex align-items-center">
+                            <button (click)="mostrarAgregar()" class="addButton">Agregar</button>
                         </div>
                     </div>
                 </div>
@@ -87,106 +145,47 @@
     <!--=========================== CONTENIDO DE LISTA ====================================-->
 
 
-    <div class="content mt-5" >
+    <div class="content mt-5" id="elementsContainer">
         <!-- *ngFor="let product of InventoryService.products" -->
-        <div class="itemLV horizontalBox" >
-            <div class="image">
-                <img src="https://cdn-prod.medicalnewstoday.com/content/images/articles/279/279359/two-eggplants-on-a-wooden-table.jpg" alt="">
+        
+        <div *ngFor="let producto of productos" [ngClass]="'itemLV horizontalBox ' + producto.descripcion"  [hidden]="filtro && !producto.descripcion.includes(filtro)">
+            <div class="image" id="image">
+                <img [src]="getImageUrl(producto.foto)" alt="">
             </div>
-    
+          
             <div class="info horizontalBox" style="justify-content: space-between;">
-                <p class="infoValue" style="width:100%;">Nombre: <span>Berenjenas</span></p>
-                <p class="infoValue" style="width:auto;">Tipo: <span>Comida</span>
-                </p>   
-                <p class="infoValue"  style="width:auto;background-color: transparent;color: #636363;border:none;">Cantidad: <span>213</span></p>                
-            </div>
-    
-            <div class="options horizontalBox">
-                <a href="" class="button" style="background-color: #59e08a;"><i class="fa-solid fa-plus-minus" style="color: #ffffff;"></i></a>
-                <a href="" class="button" style="background-color: #f5e067;"><i class="fa-regular fa-pen-to-square" style="color: #ffffff;"></i></a>    
-                <a href="#" class="button" style="background-color: #cd5d5d;"><i class="fa-solid fa-trash-can" style="color: #ffffff;"></i></a>  
-            </div>
-        </div>
+              <p class="infoValue" style="width:100%;">Nombre: <span>{{ producto.descripcion }}</span></p>
+              <p class="infoValue" style="width:auto;">
+                Tipo:
+                <span>
+                  {{ producto.tipo }}
+                  <i *ngIf="producto.tipo === 'Limpieza'" class="fa-solid fa-spray-can-sparkles"></i>
+                  <i *ngIf="producto.tipo === 'Legumbres'" class="fa-solid fa-bowl-rice"></i>
+                  <i *ngIf="producto.tipo === 'Dulces'" class="fa-solid fa-candy-cane"></i>
+                  <i *ngIf="producto.tipo === 'Bebidas'" class="fa-solid fa-mug-hot"></i>
+                  <i *ngIf="producto.tipo === 'Snacks'" class="fa-solid fa-cookie-bite"></i>
+                  <i *ngIf="producto.tipo === 'Carnes'" class="fa-solid fa-cow"></i>
+                  <i *ngIf="producto.tipo === 'Frutas'" class="fa-solid fa-lemon"></i>
+                  <i *ngIf="producto.tipo === 'Lacteos'" class="fa-solid fa-cheese"></i>
 
-        <div class="itemLV horizontalBox" >
-            <div class="image">
-                <img src="https://walmartcr.vtexassets.com/arquivos/ids/283800/Arroz-Luisiana-99-5-Grano-Entero-Enriquecido-1800gr-2-34365.jpg?v=637798774352500000" alt="">
+                </span>
+              </p>
+              <div class="datosExtra">
+                <p class="infoValue" style="width:auto;background-color: transparent;color: #636363;border:none;">Cantidad: <span>{{ producto.cantidad }} <i class="fa-solid fa-boxes-stacked"></i></span></p>
+                <p class="infoValue" style="width:auto;background-color: transparent;color: #636363;border:none;">Precio: <i class="fa-solid fa-colon-sign"></i><span>{{ producto.precio }}</span></p>
+                <p class="infoValue" style="width:auto;background-color: transparent;color: #636363;border:none;">IVA: <span>{{ producto.iva }}%</span></p>
+              </div>
             </div>
-    
-            <div class="info horizontalBox" style="justify-content: space-between;">
-                <p class="infoValue" style="width:100%;">Nombre: <span>Arroz</span></p>
-                <p class="infoValue" style="width:auto;">Tipo: <span>Comida</span>
-                </p>   
-                <p class="infoValue"  style="width:auto;background-color: transparent;color: #636363;border:none;">Cantidad: <span>17</span></p>                
-            </div>
-    
+          
             <div class="options horizontalBox">
-                <a href="" class="button" style="background-color: #59e08a;"><i class="fa-solid fa-plus-minus" style="color: #ffffff;"></i></a>
-                <a href="" class="button" style="background-color: #f5e067;"><i class="fa-regular fa-pen-to-square" style="color: #ffffff;"></i></a>    
-                <a href="#" class="button" style="background-color: #cd5d5d;"><i class="fa-solid fa-trash-can" style="color: #ffffff;"></i></a>  
+              <button class="button" style="background-color: #ddc749;" (click)="cargarProducto(producto)"><i class="fa-regular fa-pen-to-square" style="color: #ffffff;"></i></button>
+              <button class="button" style="background-color: #cd5d5d;" (click)="eliminarProducto(producto)">
+                <i class="fa-solid fa-trash-can" style="color: #ffffff;"></i>
+              </button>
             </div>
-        </div>
-
-        <div class="itemLV horizontalBox" >
-            <div class="image">
-                <img src="https://walmartcr.vtexassets.com/arquivos/ids/361154/Infusi-n-Manza-T-Jengibre-C-rcuma-20-unidades-2-69337.jpg?v=638036158517900000" alt="">
-            </div>
-    
-            <div class="info horizontalBox" style="justify-content: space-between;">
-                <p class="infoValue" style="width:100%;">Nombre: <span>Té de Curcuma</span></p>
-                <p class="infoValue" style="width:auto;">Tipo: <span>Bebida</span>
-                </p>   
-                <p class="infoValue"  style="width:auto;background-color: transparent;color: #636363;border:none;">Cantidad: <span>13</span></p>                
-            </div>
-    
-            <div class="options horizontalBox">
-                <a href="" class="button" style="background-color: #59e08a;"><i class="fa-solid fa-plus-minus" style="color: #ffffff;"></i></a>
-                <a href="" class="button" style="background-color: #f5e067;"><i class="fa-regular fa-pen-to-square" style="color: #ffffff;"></i></a>    
-                <a href="#" class="button" style="background-color: #cd5d5d;"><i class="fa-solid fa-trash-can" style="color: #ffffff;"></i></a>  
-            </div>
-        </div>
-
-        <div class="itemLV horizontalBox" >
-            <div class="image">
-                <img src="https://walmartcr.vtexassets.com/arquivos/ids/247697/Chocolate-Hershey-s-Galleta-Crema-Blanco-43gr-1-25517.jpg?v=637709786387730000" alt="">
-            </div>
-    
-            <div class="info horizontalBox" style="justify-content: space-between;">
-                <p class="infoValue" style="width:100%;">Nombre: <span>chocolate Hershey</span></p>
-                <p class="infoValue" style="width:auto;">Tipo: <span>Dulces</span>
-                </p>   
-                <p class="infoValue"  style="width:auto;background-color: transparent;color: #636363;border:none;">Cantidad: <span>87</span></p>                
-            </div>
-    
-            <div class="options horizontalBox">
-                <a href="" class="button" style="background-color: #59e08a;"><i class="fa-solid fa-plus-minus" style="color: #ffffff;"></i></a>
-                <a href="" class="button" style="background-color: #f5e067;"><i class="fa-regular fa-pen-to-square" style="color: #ffffff;"></i></a>    
-                <a href="#" class="button" style="background-color: #cd5d5d;"><i class="fa-solid fa-trash-can" style="color: #ffffff;"></i></a>  
-            </div>
-        </div>
-
-        <div class="itemLV horizontalBox" >
-            <div class="image">
-                <img src="https://triquitraque.cr/images/thumbs/0004284_salsa-lizano-botella-700ml.png" alt="">
-            </div>
-    
-            <div class="info horizontalBox" style="justify-content: space-between;">
-                <p class="infoValue" style="width:100%;">Nombre: <span>Salsa Lizano</span></p>
-                <p class="infoValue" style="width:auto;">Tipo: <span>Salsas</span>
-                </p>   
-                <p class="infoValue"  style="width:auto;background-color: transparent;color: #636363;border:none;">Cantidad: <span>67</span></p>                
-            </div>
-    
-            <div class="options horizontalBox">
-                <a href="" class="button" style="background-color: #59e08a;"><i class="fa-solid fa-plus-minus" style="color: #ffffff;"></i></a>
-                <a href="" class="button" style="background-color: #f5e067;"><i class="fa-regular fa-pen-to-square" style="color: #ffffff;"></i></a>    
-                <a href="#" class="button" style="background-color: #cd5d5d;"><i class="fa-solid fa-trash-can" style="color: #ffffff;"></i></a>  
-            </div>
-        </div>
+          </div>
     
     </div>
-
-
 
 
 <!-- <app-add-form *ngIf="showForm"></app-add-form> -->
