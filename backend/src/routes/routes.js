@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 
+
 // Importar controladores
 const inventoryController = require("../controllers/inventoryController");
 const authController = require("../controllers/authController");
@@ -12,6 +13,7 @@ router.get("/products/:codigo", inventoryController.getProductById);
 router.post("/products", inventoryController.addProduct);
 router.put("/products/:codigo", inventoryController.updateProduct);
 router.delete("/products/:codigo", inventoryController.deleteProduct);
+router.get("/images/:imageId",inventoryController.getImage);
 
 // Rutas para las facturas
 router.post('/invoices', invoiceController.createInvoice);
